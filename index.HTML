@@ -612,6 +612,142 @@
     to { transform: translateX(-50%); }
   }
 
+  /* BASKET */
+  .basket-btn {
+    background: linear-gradient(135deg, var(--hot), var(--deep));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(176,125,90,0.3);
+  }
+  .basket-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(176,125,90,0.4); }
+  .basket-count {
+    background: white;
+    color: var(--deep);
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .basket-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 200;
+    backdrop-filter: blur(2px);
+  }
+  .basket-overlay.open { display: block; }
+  .basket-panel {
+    position: fixed;
+    top: 0; right: -420px;
+    width: 380px;
+    max-width: 95vw;
+    height: 100vh;
+    background: var(--cream);
+    z-index: 201;
+    transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.12);
+  }
+  .basket-panel.open { right: 0; }
+  .basket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid rgba(176,125,90,0.15);
+  }
+  .basket-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--deep);
+  }
+  .basket-close {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--text);
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .basket-close:hover { background: var(--blush); }
+  .basket-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .basket-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a07850;
+  }
+  .basket-empty p { font-size: 1rem; margin: 12px 0 6px; font-weight: 500; }
+  .basket-empty small { font-size: 0.85rem; opacity: 0.7; }
+  .basket-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(176,125,90,0.1);
+  }
+  .basket-item-emoji { font-size: 2rem; }
+  .basket-item-info { flex: 1; }
+  .basket-item-info strong { display: block; color: var(--deep); font-size: 0.95rem; }
+  .basket-item-info span { color: var(--hot); font-weight: 600; font-size: 0.9rem; }
+  .basket-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .qty-btn {
+    background: var(--blush);
+    border: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .qty-btn:hover { background: var(--pink); color: white; }
+  .qty-display { font-weight: 700; color: var(--deep); min-width: 20px; text-align: center; }
+  .basket-footer {
+    padding: 20px 24px;
+    border-top: 1px solid rgba(176,125,90,0.15);
+    background: white;
+  }
+  .basket-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--deep);
+  }
+  .basket-total span:last-child { color: var(--hot); font-size: 1.2rem; }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     nav { padding: 16px 24px; }
@@ -636,6 +772,7 @@
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="basket-btn" onclick="toggleBasket()">🛍️ Basket <span class="basket-count" id="basket-count">0</span></button>
 </nav>
 
 <!-- HERO -->
@@ -684,20 +821,12 @@
       <h3>Clear</h3>
       <p>A classic, crystal-clear gloss for a fresh, glossy shine on any lip colour.</p>
       <span class="product-price">£2.50</span>
-      <button class="btn-add">Add to Bag 🛍️</button>
-    </div>
-    <div class="product-card">
-      <span class="product-emoji">🍯</span>
+      <button class="btn-add" data-product="Clear">Add to Bag 🛍️</button>
       <span class="product-shade" style="background:#fbbf24;"></span>
       <h3>Honey</h3>
       <p>A warm, golden honey shade with a sweet finish and irresistible shine.</p>
       <span class="product-price">£3.00</span>
-      <button class="btn-add">Add to Bag 🛍️</button>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
+      <button class="btn-add" data-product="Honey">Add to Bag 🛍️</button>
 <section id="about">
   <div class="about-inner">
     <div class="about-visual">
@@ -775,6 +904,30 @@
   </div>
 </section>
 
+<!-- BASKET PANEL -->
+<div class="basket-overlay" id="basket-overlay" onclick="toggleBasket()"></div>
+<div class="basket-panel" id="basket-panel">
+  <div class="basket-header">
+    <h3>Your Basket 🛍️</h3>
+    <button class="basket-close" onclick="toggleBasket()">✕</button>
+  </div>
+  <div class="basket-items" id="basket-items">
+    <div class="basket-empty" id="basket-empty">
+      <span style="font-size:3rem;">🛍️</span>
+      <p>Your basket is empty!</p>
+      <small>Add some glosses to get started 💖</small>
+    </div>
+  </div>
+  <div class="basket-footer" id="basket-footer" style="display:none;">
+    <div class="basket-total">
+      <span>Total:</span>
+      <span id="basket-total">£0.00</span>
+    </div>
+    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAN__5SJvb9UM00wMTVCMlZLOTlBWFI4SlNCTkhVU1M0MS4u" target="_blank" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Place Order 💌</a>
+    <button onclick="clearBasket()" style="margin-top:10px;background:none;border:none;color:#b07d5a;font-size:0.8rem;cursor:pointer;width:100%;text-align:center;">Clear basket</button>
+  </div>
+</div>
+
 <footer>
   <p>Made with <span>💖</span> by Jess & Sophie · © 2026 Gloss by Jess & Sophie · All rights reserved</p>
 </footer>
@@ -813,17 +966,87 @@
     canvas.height = window.innerHeight;
   });
 
-  // Add to bag fun
-  document.querySelectorAll('.btn-add').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const orig = this.textContent;
-      this.textContent = 'Added! 💖';
-      this.style.background = 'linear-gradient(135deg, #a855f7, #9d174d)';
-      setTimeout(() => {
-        this.textContent = orig;
-        this.style.background = '';
-      }, 1800);
+  // BASKET
+  const products = {
+    'Clear':  { emoji: '💎', price: 2.50 },
+    'Honey':  { emoji: '🍯', price: 3.00 }
+  };
+  let basket = {};
+
+  function toggleBasket() {
+    document.getElementById('basket-panel').classList.toggle('open');
+    document.getElementById('basket-overlay').classList.toggle('open');
+  }
+
+  function addToBasket(name) {
+    basket[name] = (basket[name] || 0) + 1;
+    updateBasketUI();
+    // flash the button
+    const btns = document.querySelectorAll('.btn-add');
+    btns.forEach(btn => {
+      if (btn.dataset.product === name) {
+        const orig = btn.textContent;
+        btn.textContent = 'Added! 💖';
+        btn.style.background = 'linear-gradient(135deg, #c9956b, #7a4f35)';
+        setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1200);
+      }
     });
+  }
+
+  function changeQty(name, delta) {
+    basket[name] = (basket[name] || 0) + delta;
+    if (basket[name] <= 0) delete basket[name];
+    updateBasketUI();
+  }
+
+  function clearBasket() {
+    basket = {};
+    updateBasketUI();
+  }
+
+  function updateBasketUI() {
+    const total = Object.entries(basket).reduce((s, [n, q]) => s + products[n].price * q, 0);
+    const count = Object.values(basket).reduce((s, q) => s + q, 0);
+
+    document.getElementById('basket-count').textContent = count;
+
+    const itemsEl = document.getElementById('basket-items');
+    const emptyEl = document.getElementById('basket-empty');
+    const footerEl = document.getElementById('basket-footer');
+
+    if (count === 0) {
+      emptyEl.style.display = 'block';
+      footerEl.style.display = 'none';
+      itemsEl.innerHTML = '';
+      itemsEl.appendChild(emptyEl);
+    } else {
+      emptyEl.style.display = 'none';
+      footerEl.style.display = 'block';
+      itemsEl.innerHTML = '';
+      Object.entries(basket).forEach(([name, qty]) => {
+        const p = products[name];
+        const div = document.createElement('div');
+        div.className = 'basket-item';
+        div.innerHTML = `
+          <span class="basket-item-emoji">${p.emoji}</span>
+          <div class="basket-item-info">
+            <strong>${name}</strong>
+            <span>£${(p.price * qty).toFixed(2)}</span>
+          </div>
+          <div class="basket-item-controls">
+            <button class="qty-btn" onclick="changeQty('${name}', -1)">−</button>
+            <span class="qty-display">${qty}</span>
+            <button class="qty-btn" onclick="changeQty('${name}', 1)">+</button>
+          </div>`;
+        itemsEl.appendChild(div);
+      });
+      document.getElementById('basket-total').textContent = `£${total.toFixed(2)}`;
+    }
+  }
+
+  // Wire up Add to Bag buttons
+  document.querySelectorAll('.btn-add').forEach(btn => {
+    btn.addEventListener('click', () => addToBasket(btn.dataset.product));
   });
 </script>
 
