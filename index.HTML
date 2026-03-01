@@ -309,11 +309,72 @@
   @keyframes floatRandom { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-16px) rotate(8deg); } }
   @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--deep);
+    padding: 4px 8px;
+  }
+
   @media (max-width: 768px) {
-    nav { padding: 16px 24px; }
+    .hamburger { display: block; }
+    #nav-menu {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: rgba(250,246,238,0.98);
+      flex-direction: column;
+      gap: 0;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(176,125,90,0.2);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    #nav-menu.open { display: flex; }
+    #nav-menu li a {
+      display: block;
+      padding: 14px 24px;
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(176,125,90,0.08);
+    }
+  }
     nav ul { display: none; }
-    #shop, #about, #reviews, #contact { padding: 80px 24px; }
-    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .basket-btn { padding: 8px 14px; font-size: 0.8rem; }
+
+    .hero { padding: 100px 20px 48px; }
+    .hero h1 { font-size: 3rem; }
+    .hero > .hero-content > p { font-size: 0.95rem; }
+    .hero-gloss-emoji { font-size: 3.5rem; }
+    .btn-primary, .btn-secondary { padding: 13px 26px; font-size: 0.85rem; }
+
+    #shop { padding: 60px 20px; }
+    .products-grid { grid-template-columns: 1fr 1fr; gap: 16px; max-width: 100%; }
+    .product-card { padding: 20px 14px; }
+    .product-emoji { font-size: 2.8rem; }
+    .product-card h3 { font-size: 1.1rem; }
+    .product-price { font-size: 1.2rem; }
+    .btn-add { padding: 8px 18px; font-size: 0.8rem; }
+
+    #about { padding: 60px 20px; }
+    .about-inner { grid-template-columns: 1fr; gap: 32px; }
+    .about-text h2 { font-size: 1.6rem; }
+    .avatar { width: 80px; height: 80px; font-size: 2rem; }
+
+    #reviews { padding: 60px 20px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+
+    #contact { padding: 60px 20px; }
+    .social-links { flex-direction: column; align-items: center; gap: 12px; }
+
+    .basket-panel { width: 100%; right: -100%; }
+    .section-header h2 { font-size: 1.8rem; }
+  }
+
+  @media (max-width: 400px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.4rem; }
   }
 </style>
 </head>
@@ -325,13 +386,16 @@
   <div>
     <img src="https://raw.githubusercontent.com/TILLY171212/Gloss/main/logo.jpeg" alt="Gloss by Jess & Soph" style="height:48px; width:auto;">
   </div>
-  <ul>
-    <li><a href="#shop">Shop</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#reviews">Reviews</a></li>
-    <li><a href="#contact">Contact</a></li>
+  <ul id="nav-menu">
+    <li><a href="#shop" onclick="closeMenu()">Shop</a></li>
+    <li><a href="#about" onclick="closeMenu()">About</a></li>
+    <li><a href="#reviews" onclick="closeMenu()">Reviews</a></li>
+    <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
   </ul>
-  <button class="basket-btn" onclick="toggleBasket()">🛍️ Basket <span class="basket-count" id="basket-count">0</span></button>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="basket-btn" onclick="toggleBasket()">🛍️ Basket <span class="basket-count" id="basket-count">0</span></button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+  </div>
 </nav>
 
 <section class="hero">
@@ -510,6 +574,17 @@
   }
   requestAnimationFrame(drawSparkles);
   window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+  function toggleMenu() {
+    const menu = document.getElementById('nav-menu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.textContent = menu.classList.contains('open') ? '✕' : '☰';
+  }
+  function closeMenu() {
+    document.getElementById('nav-menu').classList.remove('open');
+    document.getElementById('hamburger').textContent = '☰';
+  }
 
   // BASKET
   const products = {
