@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gloss by Jess & Sophie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #f472b6;
+    --hot: #ec4899;
+    --blush: #fce7f3;
+    --deep: #9d174d;
+    --gold: #f59e0b;
+    --cream: #fff5f9;
+    --text: #3b0764;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* Sparkle canvas */
+  #sparkle-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; width: 100%;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 48px;
+    background: rgba(255,245,249,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(244,114,182,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--deep);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--hot); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 36px;
+  }
+
+  nav ul a {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--hot); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 60px;
+    background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 40%, #fdf2f8 70%, #fff5f9 100%);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(244,114,182,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pink), var(--hot));
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    line-height: 1.05;
+    color: var(--deep);
+    margin-bottom: 20px;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--hot);
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #6b21a8;
+    max-width: 480px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--hot), var(--deep));
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 25px rgba(236,72,153,0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(236,72,153,0.5);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--deep);
+    border: 2px solid var(--pink);
+    padding: 14px 34px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: var(--blush);
+    border-color: var(--hot);
+  }
+
+  .hero-gloss-emoji {
+    font-size: 5rem;
+    display: block;
+    margin-bottom: 16px;
+    animation: float 3s ease-in-out infinite, fadeUp 0.5s ease both;
+  }
+
+  /* floating lip gloss tubes decoration */
+  .float-deco {
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.35;
+    animation: floatRandom 4s ease-in-out infinite;
+  }
+  .fd1 { top: 15%; left: 8%; animation-delay: 0s; }
+  .fd2 { top: 25%; right: 10%; animation-delay: 0.8s; font-size: 2rem; }
+  .fd3 { bottom: 25%; left: 12%; animation-delay: 1.5s; font-size: 1.8rem; }
+  .fd4 { bottom: 20%; right: 8%; animation-delay: 0.4s; }
+
+  /* TICKER */
+  .ticker {
+    background: linear-gradient(135deg, var(--hot), var(--deep));
+    color: white;
+    padding: 12px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 18s linear infinite;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ticker-inner span { margin: 0 32px; }
+  .ticker-sep { color: rgba(255,255,255,0.5); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-header .label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--hot);
+    margin-bottom: 12px;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--deep);
+    line-height: 1.2;
+  }
+
+  .section-header h2 em {
+    font-style: italic;
+    color: var(--hot);
+  }
+
+  /* SHOP */
+  #shop {
+    padding: 100px 48px;
+    background: white;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .product-card {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    border: 1px solid rgba(244,114,182,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(244,114,182,0.2);
+  }
+
+  .product-emoji { font-size: 4rem; display: block; margin-bottom: 16px; }
+
+  .product-shade {
+    display: inline-block;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    margin-bottom: 12px;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .product-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+
+  .product-card p {
+    font-size: 0.85rem;
+    color: #9d4edd;
+    font-weight: 300;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .product-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--hot);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .btn-add {
+    background: linear-gradient(135deg, var(--pink), var(--hot));
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-add:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(236,72,153,0.35);
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 100px 48px;
+    background: linear-gradient(135deg, #fdf2f8, #fff0f9);
+  }
+
+  .about-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .about-visual {
+    text-align: center;
+  }
+
+  .about-avatar-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .avatar {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    border: 4px solid white;
+    box-shadow: 0 8px 24px rgba(244,114,182,0.3);
+  }
+
+  .avatar.jess { background: linear-gradient(135deg, #fce7f3, #fbcfe8); }
+  .avatar.sophie { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); }
+
+  .avatar-names {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--deep);
+    font-size: 1.1rem;
+  }
+
+  .about-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--deep);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .about-text h2 em { color: var(--hot); font-style: italic; }
+
+  .about-text p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: #6b21a8;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .about-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .badge {
+    background: white;
+    border: 1px solid rgba(244,114,182,0.3);
+    color: var(--deep);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* REVIEWS */
+  #reviews {
+    padding: 100px 48px;
+    background: white;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .review-card {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 32px 28px;
+    border: 1px solid rgba(244,114,182,0.12);
+    position: relative;
+  }
+
+  .review-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: var(--pink);
+    opacity: 0.2;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    line-height: 1;
+  }
+
+  .stars { color: var(--gold); font-size: 1rem; margin-bottom: 14px; }
+
+  .review-card p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #6b21a8;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .reviewer {
+    font-weight: 500;
+    color: var(--deep);
+    font-size: 0.85rem;
+  }
+
+  .reviewer small {
+    display: block;
+    color: var(--pink);
+    font-weight: 400;
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+
+  /* CONTACT */
+  #contact {
+    padding: 100px 48px;
+    background: linear-gradient(135deg, var(--deep) 0%, #6b21a8 50%, #9d174d 100%);
+    text-align: center;
+    color: white;
+  }
+
+  #contact .section-header .label { color: rgba(255,255,255,0.6); }
+  #contact .section-header h2 { color: white; }
+  #contact .section-header h2 em { color: var(--pink); }
+
+  .contact-inner {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .contact-inner p {
+    font-size: 1rem;
+    font-weight: 300;
+    opacity: 0.8;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    backdrop-filter: blur(4px);
+  }
+
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(255,255,255,0.4); }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--pink); }
+
+  .contact-form textarea { resize: vertical; min-height: 120px; }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 10px 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    transition: all 0.2s;
+  }
+
+  .social-link:hover {
+    color: white;
+    background: rgba(255,255,255,0.1);
+    border-color: var(--pink);
+  }
+
+  /* FOOTER */
+  footer {
+    background: #1a0533;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+
+  footer span { color: var(--pink); }
+
+  /* KEYFRAMES */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes floatRandom {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-16px) rotate(8deg); }
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    nav ul { display: none; }
+    #shop, #about, #reviews, #contact { padding: 80px 24px; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="sparkle-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Gloss by <span>Jess & Sophie</span></div>
+  <ul>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="float-deco fd1">💋</span>
+  <span class="float-deco fd2">✨</span>
+  <span class="float-deco fd3">🌸</span>
+  <span class="float-deco fd4">💄</span>
+
+  <div class="hero-content">
+    <span class="hero-gloss-emoji">💋</span>
+    <div class="hero-badge">✨ New Collection Available ✨</div>
+    <h1>Gloss by<br><em>Jess & Sophie</em></h1>
+    <p>Gorgeous, glossy, and totally you. Lip gloss made with love for every shade, every vibe, every moment.</p>
+    <div class="hero-buttons">
+      <a href="#shop" class="btn-primary">Shop the Glosses 💖</a>
+      <a href="#about" class="btn-secondary">Our Story</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>💋 Free shipping over £30</span><span class="ticker-sep">•</span>
+    <span>✨ Vegan & cruelty-free</span><span class="ticker-sep">•</span>
+    <span>💖 Made with love by Jess & Sophie</span><span class="ticker-sep">•</span>
+    <span>🌸 New shades dropping soon</span><span class="ticker-sep">•</span>
+    <span>💋 Free shipping over £30</span><span class="ticker-sep">•</span>
+    <span>✨ Vegan & cruelty-free</span><span class="ticker-sep">•</span>
+    <span>💖 Made with love by Jess & Sophie</span><span class="ticker-sep">•</span>
+    <span>🌸 New shades dropping soon</span><span class="ticker-sep">•</span>
+  </div>
+</div>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="section-header">
+    <div class="label">✦ Our Collection ✦</div>
+    <h2>Find Your <em>Perfect Gloss</em></h2>
+  </div>
+  <div class="products-grid">
+    <div class="product-card">
+      <span class="product-emoji">💖</span>
+      <span class="product-shade" style="background:#f9a8d4;"></span>
+      <h3>Blushing Babe</h3>
+      <p>A soft, sheer pink that gives you that perfectly-kissed look all day long.</p>
+      <span class="product-price">£8.99</span>
+      <button class="btn-add">Add to Bag 🛍️</button>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🍓</span>
+      <span class="product-shade" style="background:#ef4444;"></span>
+      <h3>Berry Bombshell</h3>
+      <p>Bold, juicy berry with a high-shine finish that makes lips pop.</p>
+      <span class="product-price">£8.99</span>
+      <button class="btn-add">Add to Bag 🛍️</button>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">✨</span>
+      <span class="product-shade" style="background:linear-gradient(135deg,#fde68a,#f9a8d4);"></span>
+      <h3>Golden Hour</h3>
+      <p>Shimmery champagne with golden flecks — your glow-up in a tube.</p>
+      <span class="product-price">£9.99</span>
+      <button class="btn-add">Add to Bag 🛍️</button>
+    </div>
+    <div class="product-card">
+      <span class="product-emoji">🌸</span>
+      <span class="product-shade" style="background:#fda4af;"></span>
+      <h3>Peachy Queen</h3>
+      <p>Warm peach coral with a plumping effect for full, luscious lips.</p>
+      <span class="product-price">£8.99</span>
+      <button class="btn-add">Add to Bag 🛍️</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual">
+      <div class="about-avatar-row">
+        <div class="avatar jess">👩‍🦱</div>
+        <div class="avatar sophie">👩‍🦰</div>
+      </div>
+      <div class="avatar-names">
+        <span>Jess</span>
+        <span>Sophie</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <h2>We're <em>Jess & Sophie,</em><br>your lip gloss besties.</h2>
+      <p>It all started with one simple idea: lip gloss should feel as good as it looks. We were best friends obsessed with beauty, and we couldn't find glosses that ticked every box — gorgeous colour, amazing formula, and prices that don't hurt.</p>
+      <p>So we made our own! Every shade is tested, tweaked, and totally obsessed over before it reaches you. Because you deserve the best. 💖</p>
+      <div class="about-badges">
+        <div class="badge">🌱 Vegan Formula</div>
+        <div class="badge">🐰 Cruelty-Free</div>
+        <div class="badge">✨ Long-Lasting Shine</div>
+        <div class="badge">💋 UK Made</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-header">
+    <div class="label">✦ Customer Love ✦</div>
+    <h2>What Our <em>Gloss Girls</em> Say</h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>Honestly obsessed with Blushing Babe!! It's the perfect everyday pink and lasts way longer than expected. My go-to for every occasion 💕</p>
+      <div class="reviewer">Mia T.
+        <small>Verified buyer · Blushing Babe</small>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>The packaging is so cute and the gloss itself is incredible. Berry Bombshell is my new signature shade. Not sticky at all — which is RARE!</p>
+      <div class="reviewer">Chloe R.
+        <small>Verified buyer · Berry Bombshell</small>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>Got Golden Hour as a gift and now I need every single shade. The shimmer is so pretty and the scent is amazing. Already recommended to all my friends! ✨</p>
+      <div class="reviewer">Abi K.
+        <small>Verified buyer · Golden Hour</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <div class="label">✦ Get In Touch ✦</div>
+    <h2>Say <em>Hello!</em></h2>
+  </div>
+  <div class="contact-inner">
+    <p>Whether you have a question about an order, want to collab, or just wanna say hi — we'd love to hear from you! 💌</p>
+    <div class="contact-form">
+      <input type="text" placeholder="Your name">
+      <input type="email" placeholder="Your email">
+      <textarea placeholder="Your message..."></textarea>
+      <button class="btn-primary" style="border:none;font-family:'DM Sans',sans-serif;">Send it! 💌</button>
+    </div>
+    <div class="social-links">
+      <a href="#" class="social-link">📸 Instagram</a>
+      <a href="#" class="social-link">🎵 TikTok</a>
+      <a href="#" class="social-link">✉️ Email Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Made with <span>💖</span> by Jess & Sophie · © 2026 Gloss by Jess & Sophie · All rights reserved</p>
+</footer>
+
+<script>
+  // Sparkle canvas
+  const canvas = document.getElementById('sparkle-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const sparkles = Array.from({length: 60}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 0.5,
+    alpha: Math.random(),
+    speed: Math.random() * 0.008 + 0.003,
+    phase: Math.random() * Math.PI * 2
+  }));
+
+  function drawSparkles(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    sparkles.forEach(s => {
+      s.alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(244, 114, 182, ${s.alpha * 0.6})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawSparkles);
+  }
+  requestAnimationFrame(drawSparkles);
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  // Add to bag fun
+  document.querySelectorAll('.btn-add').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const orig = this.textContent;
+      this.textContent = 'Added! 💖';
+      this.style.background = 'linear-gradient(135deg, #a855f7, #9d174d)';
+      setTimeout(() => {
+        this.textContent = orig;
+        this.style.background = '';
+      }, 1800);
+    });
+  });
+</script>
+
+</body>
+</html>
