@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gloss by Jess & Sophie</title>
+<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/TILLY171212/Gloss/main/logo.jpeg">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --pink: #f472b6;
-    --hot: #ec4899;
-    --blush: #fce7f3;
-    --deep: #9d174d;
-    --gold: #f59e0b;
-    --cream: #fff5f9;
-    --text: #3b0764;
+    --pink: #c9956b;
+    --hot: #b07d5a;
+    --blush: #f5ede3;
+    --deep: #7a4f35;
+    --gold: #c9956b;
+    --cream: #faf6ee;
+    --text: #5c3d2a;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -87,7 +88,7 @@
     justify-content: center;
     text-align: center;
     padding: 120px 24px 60px;
-    background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 40%, #fdf2f8 70%, #fff5f9 100%);
+    background: linear-gradient(135deg, #faf6ee 0%, #f5ede3 40%, #f0e6d6 70%, #faf6ee 100%);
     overflow: hidden;
   }
 
@@ -96,7 +97,7 @@
     position: absolute;
     top: -100px; right: -100px;
     width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(244,114,182,0.25) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(201,149,107,0.2) 0%, transparent 70%);
     border-radius: 50%;
   }
 
@@ -105,7 +106,7 @@
     position: absolute;
     bottom: -80px; left: -80px;
     width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(176,125,90,0.15) 0%, transparent 70%);
     border-radius: 50%;
   }
 
@@ -144,7 +145,7 @@
   .hero p {
     font-size: 1.1rem;
     font-weight: 300;
-    color: #6b21a8;
+    color: #8b5e3c;
     max-width: 480px;
     margin: 0 auto 36px;
     line-height: 1.7;
@@ -319,7 +320,7 @@
 
   .product-card p {
     font-size: 0.85rem;
-    color: #9d4edd;
+    color: #8b5e3c;
     font-weight: 300;
     margin-bottom: 16px;
     line-height: 1.5;
@@ -353,7 +354,7 @@
   /* ABOUT */
   #about {
     padding: 100px 48px;
-    background: linear-gradient(135deg, #fdf2f8, #fff0f9);
+    background: linear-gradient(135deg, #faf6ee, #f5ede3);
   }
 
   .about-inner {
@@ -387,8 +388,8 @@
     box-shadow: 0 8px 24px rgba(244,114,182,0.3);
   }
 
-  .avatar.jess { background: linear-gradient(135deg, #fce7f3, #fbcfe8); }
-  .avatar.sophie { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); }
+  .avatar.jess { background: linear-gradient(135deg, #f5ede3, #e8d5c0); }
+  .avatar.sophie { background: linear-gradient(135deg, #f0e6d6, #ddc9b0); }
 
   .avatar-names {
     display: flex;
@@ -414,7 +415,7 @@
   .about-text p {
     font-size: 0.95rem;
     font-weight: 300;
-    color: #6b21a8;
+    color: #8b5e3c;
     line-height: 1.8;
     margin-bottom: 16px;
   }
@@ -478,7 +479,7 @@
   .review-card p {
     font-size: 0.92rem;
     line-height: 1.7;
-    color: #6b21a8;
+    color: #8b5e3c;
     font-weight: 300;
     margin-bottom: 20px;
   }
@@ -500,7 +501,7 @@
   /* CONTACT */
   #contact {
     padding: 100px 48px;
-    background: linear-gradient(135deg, var(--deep) 0%, #6b21a8 50%, #9d174d 100%);
+    background: linear-gradient(135deg, #7a4f35 0%, #a0714f 50%, #8b5e3c 100%);
     text-align: center;
     color: white;
   }
@@ -580,7 +581,7 @@
 
   /* FOOTER */
   footer {
-    background: #1a0533;
+    background: #3d2010;
     color: rgba(255,255,255,0.4);
     text-align: center;
     padding: 24px;
@@ -800,7 +801,7 @@
       s.alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.phase));
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(244, 114, 182, ${s.alpha * 0.6})`;
+      ctx.fillStyle = `rgba(201, 149, 107, ${s.alpha * 0.6})`;
       ctx.fill();
     });
     requestAnimationFrame(drawSparkles);
